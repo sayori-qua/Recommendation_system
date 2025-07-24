@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Product catalog{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap @5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+        }
+        .navbar-brand {
+            font-weight: bold;
+        }
+        .product-card {
+            border: none;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            background-color: #fff;
+            border-radius: .5rem;
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        .product-img {
+            height: 200px;
+            object-fit: cover;
+            border-top-left-radius: .5rem;
+            border-top-right-radius: .5rem;
+        }
+        .product-title {
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 0;
+            color: #333;
+        }
+    </style>
+</head>
+<body class="bg-light">
+
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+  <div class="container">
+    <a class="navbar-brand" href="{{ url_for('index') }}">Product catalog</a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item dropdown me-3">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Categories
+          </a>
+          <ul class="dropdown-menu shadow-sm">
+            {% for display_name in electro_display_categories.keys() %}
+              <li><a class="dropdown-item" href="{{ url_for('category_electro', prefix=display_name) }}">{{ display_name }}</a></li>
+            {% endfor %}
+            {% for category in uk_display_categories %}
+              <li><a class="dropdown-item" href="{{ url_for('category_uk', prefix=category) }}">{{ category }}</a></li>
+            {% endfor %}
+          </ul>
+        </li>
+      </ul>
+
+      <!-- Корзина справа -->
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('view_cart') }}">
+            🛒 Корзина
+            <span class="badge bg-secondary">
+              {{ session['cart']|length if session.get('cart') else 0 }}
+            </span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<div class="container py-4">
+    {% block content %}
+    {% endblock %}
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap @5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

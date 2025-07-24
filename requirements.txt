@@ -1,0 +1,14 @@
+Flask>=2.3, <3
+gunicorn
+sentence-transformers
+pandas
+numpy<2
+scikit-learn
+matplotlib
+kagglehub
+Pillow
+scikit-surprise
+elasticsearch[async]>=8.11.0
+psycopg2-binary
+sqlalchemy
+joblib

@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}Search Results{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  <h1 class="mb-4">Search results: "{{ query }}"</h1>
+
+  {% if results %}
+    <div class="row">
+      {% for product in results %}
+        <div class="col-md-4 mb-4">
+          <!-- Кликабельная карточка -->
+          <a href="{{ url_for('product_page_' + product.dataset|lower, product_id=product.product_id) }}"
+             class="text-decoration-none text-dark">
+            <div class="card product-card h-100 shadow-sm hover-effect">
+
+              <!-- Изображение (без if/else, просто с fallback) -->
+              <img src="{{
+                product.img_link or
+                product.imgurl or
+                product.imgUrl or
+                'https://via.placeholder.com/300x200?text=No+Image'
+              }}"
+                   alt="{{ product.product_name | default('Product', true) }}"
+                   class="card-img-top"
+                   style="height: 200px; object-fit: cover;">
+
+              <!-- Текст карточки -->
+              <div class="card-body">
+                <h5 class="card-title product-title">{{ product.product_name|truncate(40) }}</h5>
+                <p class="text-muted small">{{ product.category|truncate(30) }}</p>
+              </div>
+            </div>
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="text-muted">Nothing found.</p>
+  {% endif %}
+
+  <a href="{{ url_for('index') }}" class="btn btn-outline-secondary mt-3">← Back</a>
+</div>
+
+<!-- Стили для эффекта при наведении -->
+<style>
+  .hover-effect {
+    transition: all 0.2s ease;
+  }
+  .hover-effect:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+  }
+  .card {
+    border: none;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+</style>
+{% endblock %}

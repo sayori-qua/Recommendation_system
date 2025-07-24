@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1>Shopping Cart</h1>
+
+{% if cart %}
+<table class="table">
+  <thead>
+    <tr>
+      <th>Image</th>
+      <th>Name</th>
+      <th>Price</th>
+      <th>Remove</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in cart %}
+    <tr>
+      <td><img src="{{ item.image }}" width="50" alt="{{ item.name }}"></td>
+      <td>{{ item.name }}</td>
+      <td>{{ item.price }}</td>
+      <td>
+        <a href="{{ url_for('remove_from_cart', index=loop.index0) }}" class="btn btn-danger">Remove</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{# Отображаем общее количество и сумму #}
+<p><strong>Total items: {{ cart|length }}</strong></p>
+<p><strong>Total price: £{{ "%.2f"|format(total) }}</strong></p>
+
+{% else %}
+<p>Your cart is empty.</p>
+{% endif %}
+
+<a href="{{ url_for('index') }}" class="btn btn-secondary">Continue Shopping</a>
+
+{% endblock %}
